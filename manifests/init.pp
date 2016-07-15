@@ -84,7 +84,10 @@ class postfix
     $allow_ipv4_address = '127.0.0.1',
     $allow_ipv6_address = '::1',
     $allow_ipv6_netmask = '128',
-    $monitor_email = $::servermonitor
+    $monitor_email = $::servermonitor,
+    $myorigin = $::fqdn,
+    $myhostname = $::fqdn,
+    $mydestination = "$::fqdn localhost.$::domain} localhost"
 )
 {
 

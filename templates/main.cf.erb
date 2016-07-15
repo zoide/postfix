@@ -13,27 +13,24 @@ readme_directory = no
 
 # Please make sure $::fqdn fact exists. If necessary, add an entry to to 
 # /etc/hosts.
-myhostname = <%= @fqdn %>
-myorigin = <%= @fqdn %>
+myhostname = <%= scope['postfix::myhostname'] %>
+myorigin = <%= scope['postfix::myorigin'] %>
 
-<% if @domain_mail_server == "yes" %>
+<% if @domain_mail_server == "yes" -%>
 # This mail server receives mail for the whole domain
 mydomain = <%= @domain %>
-mydestination = <%= @fqdn %> localhost.<%= @domain %> localhost <%= @domain %>
-<% else %>
+mydestination = <% if scope['postfix::mydestination'] -%><%= scope['postfix::mydestination'] %><% else -%><%= @fqdn %> localhost.<%= @domain %> localhost <%= @domain %><% end -%>
+<% else -%>
 # This mail server receives mail only for itself
-mydestination = <%= @fqdn %> localhost.<%= @domain %> localhost
-<% end %>
+mydestination = <% if scope['postfix::mydestination'] -%><%= scope['postfix::mydestination'] %><% else -%><%= @fqdn %> localhost.<%= @domain %> localhost<% end -%>
+<% end -%>
 
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 <%= @allow_ipv4_address %> [<%= @allow_ipv6_address %>]/<%= @allow_ipv6_netmask %>
-relayhost = <% if @relayhost %><%= @relayhost %><% end -%>
+<% if @relayhost %>relayhost = <%= @relayhost %><% end -%>
 
-relay_domains =
-mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = <%= @inet_interfaces %>
 
-smtpd_client_restrictions = permit_mynetworks, reject
 smtp_host_lookup = <%= @smtp_host_lookup %>
 <% if @smtp_username -%>
 smtp_sasl_auth_enable = yes
