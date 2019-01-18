@@ -87,7 +87,7 @@ class postfix
     $monitor_email = $::servermonitor,
     $myorigin = $::fqdn,
     $myhostname = $::fqdn,
-    $mydestination = "$::fqdn localhost.$::domain} localhost"
+    $mydestination = "$::fqdn localhost.$::domain localhost"
 )
 {
 
