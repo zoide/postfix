@@ -37,6 +37,8 @@ smtp_sasl_auth_enable = yes
 smtp_tls_security_level = encrypt
 smtp_sasl_tls_security_options = noanonymous
 smtp_sasl_password_maps = hash:<%= scope['postfix::params::sasl_passwd'] %>
+#comapt
+compatibility_level = 2
 <% end -%>
 <% if !@options.empty? -%> 
 # additional options from hiera (postfix::options)"
